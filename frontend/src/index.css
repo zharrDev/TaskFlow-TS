@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 dark:bg-slate-700 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400 dark:bg-slate-600;
+  }
+}
+
+@layer components {
+  .glass {
+    @apply bg-white/80 dark:bg-slate-800/80 backdrop-blur-lg border border-slate-200/60 dark:border-slate-700/60;
+  }
+
+  .glass-card {
+    @apply glass rounded-2xl shadow-sm;
+  }
+
+  .btn-primary {
+    @apply bg-primary-600 text-white font-semibold px-6 py-2.5 rounded-xl
+    hover:bg-primary-700 hover:shadow-md hover:shadow-primary-600/20 hover:-translate-y-0.5
+    active:translate-y-0 transition-all duration-200;
+  }
+
+  .btn-secondary {
+    @apply bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300
+    font-semibold px-6 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700
+    hover:bg-slate-200 dark:hover:bg-slate-700 transition-all duration-200;
+  }
+
+  .btn-danger {
+    @apply bg-red-500 text-white font-semibold px-6 py-2.5 rounded-xl
+    hover:bg-red-600 hover:shadow-md hover:shadow-red-500/20
+    transition-all duration-200;
+  }
+
+  .btn-ghost {
+    @apply text-slate-600 dark:text-slate-400 font-medium px-4 py-2 rounded-xl
+    hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700
+    bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100
+    placeholder:text-slate-400 dark:placeholder:text-slate-500
+    focus:outline-none focus:ring-2 focus:ring-primary-500/40 focus:border-primary-500
+    transition-all duration-200;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-xl text-slate-600 dark:text-slate-400
+    hover:bg-primary-50 dark:hover:bg-slate-800 hover:text-primary-700 dark:hover:text-primary-400
+    transition-all duration-200 font-medium;
+  }
+
+  .sidebar-link-active {
+    @apply flex items-center gap-3 px-4 py-2.5 rounded-xl font-semibold
+    bg-primary-50 dark:bg-primary-900/20
+    text-primary-700 dark:text-primary-400
+    border border-primary-200/60 dark:border-primary-800/50;
+  }
+
+  /* Flip card styles for Auth */
+  .flip-container {
+    perspective: 1200px;
+  }
+
+  .flip-card {
+    position: relative;
+    width: 100%;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+  }
+
+  .flip-card.flipped {
+    transform: rotateY(180deg);
+  }
+
+  .flip-card-front,
+  .flip-card-back {
+    position: absolute;
+    width: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .flip-card-back {
+    transform: rotateY(180deg);
+  }
+}
+
+@layer utilities {
+  .animate-delay-100 { animation-delay: 100ms; }
+  .animate-delay-200 { animation-delay: 200ms; }
+  .animate-delay-300 { animation-delay: 300ms; }
+  .animate-delay-400 { animation-delay: 400ms; }
+  .animate-delay-500 { animation-delay: 500ms; }
+}
