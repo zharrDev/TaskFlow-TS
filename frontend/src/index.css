@@ -115,3 +115,8 @@
   .animate-delay-400 { animation-delay: 400ms; }
   .animate-delay-500 { animation-delay: 500ms; }
 }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

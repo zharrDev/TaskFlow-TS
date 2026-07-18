@@ -4,36 +4,57 @@ import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import { HiOutlineEnvelope, HiOutlineLockClosed, HiOutlineUser, HiOutlineEye, HiOutlineEyeSlash, HiOutlineClipboardDocumentList, HiOutlineUsers, HiOutlineChartBar } from 'react-icons/hi2';
 
-const TaskBotSVG: React.FC<{ isHiding: boolean }> = ({ isHiding }) => (
-  <svg width={130} height={130} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm block mx-auto">
-    <rect x="25" y="40" width="70" height="55" rx="14" stroke="#0F766E" strokeWidth="3" fill="#F0FDFA" />
-    <g style={{ transformOrigin: '60px 65px', transform: isHiding ? 'rotate(12deg)' : 'rotate(0deg)', transition: 'transform 0.5s' }}>
-      <rect x="35" y="50" width="50" height="30" rx="8" fill="#CCFBF1" stroke="#0D9488" strokeWidth="2" />
-      {!isHiding ? (
-        <>
-          <circle cx="48" cy="65" r="4.5" fill="#0F766E" />
-          <circle cx="72" cy="65" r="4.5" fill="#0F766E" />
-          <circle cx="49" cy="63.5" r="1.5" fill="white" />
-          <circle cx="73" cy="63.5" r="1.5" fill="white" />
-          <path d="M55 73 Q60 76 65 73" stroke="#0F766E" strokeWidth="2" strokeLinecap="round" fill="none" />
-        </>
-      ) : (
-        <>
-          <line x1="43" y1="65" x2="53" y2="65" stroke="#0F766E" strokeWidth="3" strokeLinecap="round" />
-          <line x1="67" y1="65" x2="77" y2="65" stroke="#0F766E" strokeWidth="3" strokeLinecap="round" />
-        </>
-      )}
-    </g>
-    <line x1="60" y1="40" x2="60" y2="28" stroke="#0F766E" strokeWidth="2.5" strokeLinecap="round" />
-    <circle cx="60" cy="24" r="6" fill="#14B8A6" stroke="#0F766E" strokeWidth="2.5" />
-    <g style={{ transform: isHiding ? 'translateY(-12px)' : 'translateY(0)', transition: 'transform 0.35s' }}>
-      <rect x="8" y="62" width="20" height="12" rx="6" fill="#F0FDFA" stroke="#0F766E" strokeWidth="2.5" />
-      <rect x="92" y="62" width="20" height="12" rx="6" fill="#F0FDFA" stroke="#0F766E" strokeWidth="2.5" />
-    </g>
-    <rect x="35" y="93" width="16" height="8" rx="4" fill="#F0FDFA" stroke="#0F766E" strokeWidth="2" />
-    <rect x="69" y="93" width="16" height="8" rx="4" fill="#F0FDFA" stroke="#0F766E" strokeWidth="2" />
-  </svg>
-);
+const TaskBotHeadSVG: React.FC<{ isHiding: boolean, focusedField: string }> = ({ isHiding, focusedField }) => {
+  let pupilX = 0;
+  let pupilY = 0;
+  if (!isHiding) {
+    if (focusedField === 'email') {
+       pupilY = 2;
+       pupilX = 1;
+    } else if (focusedField === 'name') {
+       pupilY = -1;
+       pupilX = 1;
+    } else if (focusedField === 'password') {
+       pupilY = 4;
+       pupilX = 0;
+    }
+  }
+
+  const antennaColor = isHiding ? '#64748B' : '#14B8A6';
+
+  return (
+    <div className="animate-float block mx-auto w-[120px] h-[95px]">
+      <svg width="100%" height="100%" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
+        <line x1="60" y1="35" x2="60" y2="15" stroke="#0F766E" strokeWidth="2.5" strokeLinecap="round" />
+        <circle cx="60" cy="10" r="6" fill={antennaColor} stroke="#0F766E" strokeWidth="2.5" style={{ transition: 'fill 0.3s' }} />
+        
+        <rect x="30" y="35" width="60" height="50" rx="12" stroke="#0F766E" strokeWidth="3" fill="#F0FDFA" />
+        
+        <rect x="24" y="50" width="6" height="20" rx="3" fill="#F0FDFA" stroke="#0F766E" strokeWidth="2.5" />
+        <rect x="90" y="50" width="6" height="20" rx="3" fill="#F0FDFA" stroke="#0F766E" strokeWidth="2.5" />
+
+        <rect x="38" y="45" width="44" height="28" rx="6" fill="#CCFBF1" stroke="#0D9488" strokeWidth="2" />
+
+        <g style={{ transition: 'all 0.3s ease' }}>
+          {!isHiding ? (
+            <g className="animate-[blink_4s_infinite]" style={{ transformOrigin: '60px 58px' }}>
+              <circle cx="48" cy="56" r="4.5" fill="#0F766E" />
+              <circle cx="72" cy="56" r="4.5" fill="#0F766E" />
+              <circle cx={49 + pupilX} cy={54.5 + pupilY} r="1.5" fill="white" style={{ transition: 'all 0.2s' }} />
+              <circle cx={73 + pupilX} cy={54.5 + pupilY} r="1.5" fill="white" style={{ transition: 'all 0.2s' }} />
+              <path d="M55 64 Q60 67 65 64" stroke="#0F766E" strokeWidth="2" strokeLinecap="round" fill="none" />
+            </g>
+          ) : (
+            <g>
+              <line x1="44" y1="56" x2="52" y2="56" stroke="#0F766E" strokeWidth="3" strokeLinecap="round" />
+              <line x1="68" y1="56" x2="76" y2="56" stroke="#0F766E" strokeWidth="3" strokeLinecap="round" />
+            </g>
+          )}
+        </g>
+      </svg>
+    </div>
+  );
+};
 
 const AuthPage: React.FC = () => {
   const { login, register } = useAuth();
@@ -54,21 +75,17 @@ const AuthPage: React.FC = () => {
   const [regLoading, setRegLoading] = useState(false);
   const [regErrors, setRegErrors] = useState<Record<string, string>>({});
 
+  const [focusedField, setFocusedField] = useState<'none' | 'email' | 'name' | 'password'>('none');
   const [isMascotHiding, setIsMascotHiding] = useState(false);
-  const [loginPwdFocused, setLoginPwdFocused] = useState(false);
-  const [regPwdFocused, setRegPwdFocused] = useState(false);
-  const [regConfirmFocused, setRegConfirmFocused] = useState(false);
-
-  const passwordTyping = (loginPwdFocused && loginPassword.length > 0) ||
-    (regPwdFocused && regForm.password.length > 0) ||
-    (regConfirmFocused && regForm.confirmPassword.length > 0);
-
-  const passwordShown = (showLoginPassword && loginPassword.length > 0) ||
-    (showRegPassword && (regForm.password.length > 0));
 
   useEffect(() => {
-    setIsMascotHiding(passwordTyping || passwordShown);
-  }, [passwordTyping, passwordShown]);
+    let hiding = false;
+    if (focusedField === 'password') {
+      if (!isFlipped && loginPassword.length > 0) hiding = true;
+      if (isFlipped && (regForm.password.length > 0 || regForm.confirmPassword.length > 0)) hiding = true;
+    }
+    setIsMascotHiding(hiding);
+  }, [focusedField, loginPassword, regForm.password, regForm.confirmPassword, isFlipped]);
 
   useEffect(() => {
     setIsFlipped(location.pathname === '/register');
@@ -146,7 +163,7 @@ const AuthPage: React.FC = () => {
     const frontH = frontRef.current?.scrollHeight || 0;
     const backH = backRef.current?.scrollHeight || 0;
     setCardHeight(Math.max(frontH, backH, 380));
-  }, []);
+  }, [isFlipped]);
 
   const features = [
     { icon: HiOutlineClipboardDocumentList, label: 'Task Management' },
@@ -165,6 +182,8 @@ const AuthPage: React.FC = () => {
           <div className="relative">
             <HiOutlineEnvelope className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <input type="email" value={loginEmail} onChange={(e) => setLoginEmail(e.target.value)}
+              onFocus={() => setFocusedField('email')}
+              onBlur={() => setFocusedField('none')}
               className={`input-field pl-9 py-2 text-sm ${loginErrors.email ? 'border-red-500 focus:ring-red-500/50' : ''}`}
               placeholder="email@example.com" />
           </div>
@@ -180,11 +199,11 @@ const AuthPage: React.FC = () => {
             <HiOutlineLockClosed className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <input type={showLoginPassword ? 'text' : 'password'} value={loginPassword}
               onChange={(e) => setLoginPassword(e.target.value)}
-              onFocus={() => setLoginPwdFocused(true)}
-              onBlur={() => setLoginPwdFocused(false)}
+              onFocus={() => setFocusedField('password')}
+              onBlur={() => setFocusedField('none')}
               className={`input-field pl-9 pr-9 py-2 text-sm ${loginErrors.password ? 'border-red-500 focus:ring-red-500/50' : ''}`}
               placeholder="••••••••" />
-            <button type="button" onClick={() => setShowLoginPassword(!showLoginPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+            <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => setShowLoginPassword(!showLoginPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
               {showLoginPassword ? <HiOutlineEyeSlash className="h-4 w-4" /> : <HiOutlineEye className="h-4 w-4" />}
             </button>
           </div>
@@ -228,6 +247,8 @@ const AuthPage: React.FC = () => {
               <field.icon className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
               <input type={field.type} value={regForm[field.key as keyof typeof regForm]}
                 onChange={(e) => updateRegField(field.key, e.target.value)}
+                onFocus={() => setFocusedField(field.key as any)}
+                onBlur={() => setFocusedField('none')}
                 className={`input-field pl-8 py-1.5 text-xs ${regErrors[field.key] ? 'border-red-500' : ''}`}
                 placeholder={field.placeholder} />
             </div>
@@ -244,12 +265,12 @@ const AuthPage: React.FC = () => {
               <HiOutlineLockClosed className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
               <input type={showRegPassword ? 'text' : 'password'} value={regForm[key as keyof typeof regForm]}
                 onChange={(e) => updateRegField(key, e.target.value)}
-                onFocus={() => key === 'password' ? setRegPwdFocused(true) : setRegConfirmFocused(true)}
-                onBlur={() => key === 'password' ? setRegPwdFocused(false) : setRegConfirmFocused(false)}
+                onFocus={() => setFocusedField('password')}
+                onBlur={() => setFocusedField('none')}
                 className={`input-field pl-8 pr-8 py-1.5 text-xs ${regErrors[key] ? 'border-red-500' : ''}`}
                 placeholder="••••••••" />
               {key === 'password' && (
-                <button type="button" onClick={() => setShowRegPassword(!showRegPassword)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400">
+                <button type="button" onMouseDown={(e) => e.preventDefault()} onClick={() => setShowRegPassword(!showRegPassword)} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400">
                   {showRegPassword ? <HiOutlineEyeSlash className="h-3.5 w-3.5" /> : <HiOutlineEye className="h-3.5 w-3.5" />}
                 </button>
               )}
@@ -276,41 +297,43 @@ const AuthPage: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-br from-primary-700/30 via-primary-600/20 to-teal-500/30" />
         <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-primary-500/20 rounded-full blur-[100px] animate-float" />
         <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-teal-400/20 rounded-full blur-[100px] animate-float" style={{ animationDelay: '1s' }} />
-        <div className="relative z-10 flex flex-col justify-center px-16">
-          <div className="flex items-center gap-3 mb-10">
+        <div className="relative z-10 flex flex-col justify-center px-16 w-full max-w-xl mx-auto">
+          <div className="flex items-center gap-3 mb-8">
             <div className="h-12 w-12 rounded-xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30">
               <span className="text-white font-bold text-2xl">T</span>
             </div>
             <span className="text-3xl font-bold text-white">TaskFlow</span>
           </div>
 
-          <div className="space-y-10">
+          <div className="space-y-6 mb-8">
             <div>
-              <h2 className="text-4xl font-bold text-white mb-4 leading-tight">
+              <h2 className="text-4xl font-bold text-white mb-3 leading-tight">
                 {isFlipped ? 'Siap Mulai?' : 'Selamat Datang Kembali'}
               </h2>
-              <p className="text-slate-400 text-lg leading-relaxed max-w-md">
+              <p className="text-slate-400 text-lg leading-relaxed">
                 {isFlipped
                   ? 'Bergabung dengan ribuan tim yang sudah produktif bersama TaskFlow.'
                   : 'Kelola proyek, pantau progres, dan capai target bersama tim.'}
               </p>
             </div>
 
-            <div className="space-y-4">
+            <div className="flex gap-6">
               {features.map((f, i) => (
-                <div key={i} className="flex items-center gap-3 text-slate-300">
-                  <div className="h-9 w-9 rounded-lg bg-white/10 flex items-center justify-center">
-                    <f.icon className="h-4 w-4 text-primary-400" />
+                <div key={i} className="flex flex-col gap-2 items-center text-center text-slate-300">
+                  <div className="h-10 w-10 rounded-lg bg-white/10 flex items-center justify-center">
+                    <f.icon className="h-5 w-5 text-primary-400" />
                   </div>
-                  <span className="text-sm font-medium">{f.label}</span>
+                  <span className="text-xs font-medium max-w-[80px]">{f.label}</span>
                 </div>
               ))}
             </div>
           </div>
+          
+
         </div>
       </div>
 
-      <div className="w-full lg:w-1/2 flex items-center justify-center bg-slate-50 dark:bg-slate-900">
+      <div className="w-full lg:w-1/2 flex items-center justify-center bg-slate-50 dark:bg-slate-900 relative">
         <div className="w-full max-w-md px-4 lg:px-6">
           <div className="lg:hidden flex items-center justify-center gap-2 mb-4">
             <div className="h-9 w-9 rounded-xl bg-primary-600 flex items-center justify-center">
@@ -319,12 +342,12 @@ const AuthPage: React.FC = () => {
             <span className="text-xl font-bold text-primary-700 dark:text-primary-400">TaskFlow</span>
           </div>
 
-          <div className="glass-card p-5 sm:p-6">
-            <div className="mb-4">
-              <TaskBotSVG isHiding={isMascotHiding} />
+          <div className="glass-card p-5 sm:p-6 relative z-10">
+            <div className="mb-2 -mt-10">
+              <TaskBotHeadSVG isHiding={isMascotHiding} focusedField={focusedField} />
             </div>
 
-            <div className="flip-container">
+            <div className="flip-container mt-2">
               <div
                 className={`flip-card ${isFlipped ? 'flipped' : ''}`}
                 style={{ height: cardHeight ? `${cardHeight}px` : '380px' }}

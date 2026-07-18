@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { HiOutlineRocketLaunch, HiOutlineUserGroup, HiOutlineChartBar, HiOutlineShieldCheck, HiOutlineArrowRight } from 'react-icons/hi2';
+import { HiOutlineRocketLaunch, HiOutlineUserGroup, HiOutlineChartBar, HiOutlineShieldCheck, HiOutlineArrowRight, HiOutlineCheck, HiOutlineSparkles } from 'react-icons/hi2';
+import BorderBeamBadge from '../components/BorderBeamBadge';
 
 const LandingPage: React.FC = () => {
   const features = [
@@ -11,9 +12,9 @@ const LandingPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-900 text-white overflow-hidden">
+    <div className="min-h-screen bg-slate-900 text-white">
       {/* Navbar */}
-      <nav className="relative z-10 flex items-center justify-between px-6 lg:px-20 py-6">
+      <nav className="sticky top-0 z-50 flex items-center justify-between px-6 lg:px-20 py-5 bg-slate-900/80 backdrop-blur-lg border-b border-slate-800/50">
         <div className="flex items-center gap-2">
           <div className="h-10 w-10 rounded-xl bg-gradient-to-r from-primary-500 to-teal-400 flex items-center justify-center">
             <span className="text-white font-bold text-xl">T</span>
@@ -29,60 +30,129 @@ const LandingPage: React.FC = () => {
       </nav>
 
       {/* Hero */}
-      <section className="relative px-6 lg:px-20 pt-16 pb-32">
-        {/* Background effects */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-500/20 rounded-full blur-[128px] animate-float" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-teal-400/20 rounded-full blur-[128px] animate-float" style={{ animationDelay: '1.5s' }} />
+      <section className="relative px-6 lg:px-20 pt-16 pb-24 overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle, #64748B 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
 
-        <div className="relative max-w-5xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-300 text-sm font-medium mb-8 animate-fade-in">
-            <span className="h-2 w-2 rounded-full bg-primary-400 animate-pulse" />
-            Platform Kolaborasi Tim #1
-          </div>
+        <div className="relative max-w-6xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left: Text */}
+            <div className="order-1" style={{ animation: 'fadeIn 0.5s ease-out' }}>
+              <div className="mb-6">
+                <BorderBeamBadge text="Platform Kolaborasi Tim" icon={<HiOutlineSparkles className="h-3.5 w-3.5" />} />
+              </div>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight mb-6 animate-slide-up">
-            Kelola Proyek
-            <br />
-            <span className="bg-gradient-to-r from-primary-400 via-teal-300 to-emerald-400 bg-clip-text text-transparent">Tanpa Batas</span>
-          </h1>
+              <h1 className="text-[34px] lg:text-[40px] font-semibold leading-tight mb-5 text-white">
+                Kelola Proyek Tanpa Batas
+              </h1>
 
-          <p className="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10 animate-slide-up animate-delay-200">
-            TaskFlow menyatukan manajemen proyek, kolaborasi tim, dan pemantauan progres dalam satu platform yang powerful dan elegan.
-          </p>
+              <p className="text-[15px] leading-relaxed text-slate-400 max-w-[400px] mb-8">
+                TaskFlow menyatukan manajemen proyek, kolaborasi tim, dan pemantauan progres dalam satu platform yang powerful dan elegan.
+              </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up animate-delay-300">
-            <Link to="/register" className="group flex items-center gap-2 bg-gradient-to-r from-primary-500 to-teal-400 text-white font-bold px-8 py-4 rounded-2xl text-lg hover:shadow-2xl hover:shadow-primary-500/40 hover:-translate-y-1 transition-all duration-300">
-              Mulai Gratis Sekarang
-              <HiOutlineArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link to="/login" className="flex items-center gap-2 text-slate-300 font-semibold px-8 py-4 rounded-2xl border border-slate-700 hover:border-slate-500 hover:text-white transition-all">
-              Sudah punya akun? Login
-            </Link>
-          </div>
-        </div>
-
-        {/* Dashboard Preview Card */}
-        <div className="relative max-w-4xl mx-auto mt-20 animate-slide-up animate-delay-500">
-          <div className="absolute -inset-4 bg-gradient-to-r from-primary-500 to-teal-400 rounded-3xl opacity-20 blur-2xl animate-glow" />
-          <div className="relative rounded-2xl bg-slate-800/80 backdrop-blur-xl border border-slate-700/50 p-6 shadow-2xl">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="h-3 w-3 rounded-full bg-red-500" />
-              <div className="h-3 w-3 rounded-full bg-yellow-500" />
-              <div className="h-3 w-3 rounded-full bg-green-500" />
-              <span className="ml-4 text-xs text-slate-500">TaskFlow Dashboard</span>
+              <div className="flex flex-wrap items-center gap-4">
+                <Link to="/register" className="inline-flex items-center justify-center gap-2 bg-[#0D9488] hover:bg-[#0F766E] text-white font-semibold px-7 py-3 rounded-xl text-[15px] transition-all">
+                  Mulai Gratis
+                </Link>
+                <Link to="/login" className="inline-flex items-center justify-center gap-2 text-slate-300 font-medium px-7 py-3 rounded-xl border border-slate-600 hover:border-slate-400 hover:text-white transition-all text-[15px]">
+                  Lihat Demo
+                </Link>
+              </div>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              {[
-                { label: 'Active Projects', value: '12', color: 'from-primary-500 to-teal-400' },
-                { label: 'Total Tasks', value: '86', color: 'from-blue-500 to-cyan-500' },
-                { label: 'Completed', value: '64', color: 'from-emerald-500 to-green-400' },
-                { label: 'Team Members', value: '25', color: 'from-amber-500 to-orange-400' },
-              ].map((stat) => (
-                <div key={stat.label} className="rounded-xl bg-slate-700/50 p-4">
-                  <p className="text-xs text-slate-400 mb-1">{stat.label}</p>
-                  <p className={`text-2xl font-bold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>{stat.value}</p>
+
+            {/* Right: Flat Kanban Illustration */}
+            <div className="order-2" style={{ animation: 'slideUp 0.5s ease-out 0.2s both' }}>
+              <div className="bg-slate-800/40 border border-slate-700/40 rounded-2xl p-5">
+                <div className="flex gap-3">
+                  {/* To Do */}
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-2.5">To do</div>
+                    <div className="space-y-2">
+                      <div className="rounded-lg bg-slate-700/50 px-2.5 py-2">
+                        <div className="flex items-center gap-1 mb-1.5">
+                          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: '#0D9488' }} />
+                          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: '#F0997B' }} />
+                        </div>
+                        <p className="text-[12px] font-medium text-slate-200">Desain dashboard</p>
+                        <p className="text-[10px] text-slate-500 mt-0.5">3 subtasks</p>
+                      </div>
+                      <div className="rounded-lg bg-slate-700/50 px-2.5 py-2">
+                        <div className="flex items-center gap-1 mb-1.5">
+                          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: '#FAC775' }} />
+                          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: '#0D9488' }} />
+                        </div>
+                        <p className="text-[12px] font-medium text-slate-200">API integrasi</p>
+                        <p className="text-[10px] text-slate-500 mt-0.5">5 subtasks</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Progress */}
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-2.5">Progress</div>
+                    <div className="space-y-2">
+                      <div className="rounded-lg bg-slate-700/50 px-2.5 py-2">
+                        <div className="flex items-center gap-1 mb-1.5">
+                          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: '#F0997B' }} />
+                        </div>
+                        <p className="text-[12px] font-medium text-slate-200">User auth</p>
+                        <div className="mt-1.5 h-1 rounded-full bg-slate-600 overflow-hidden">
+                          <div className="h-full w-[65%] rounded-full" style={{ backgroundColor: '#0D9488' }} />
+                        </div>
+                        <p className="text-[10px] text-slate-500 mt-0.5">65%</p>
+                      </div>
+                      <div className="rounded-lg bg-slate-700/50 px-2.5 py-2">
+                        <div className="flex items-center gap-1 mb-1.5">
+                          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: '#FAC775' }} />
+                          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: '#0D9488' }} />
+                        </div>
+                        <p className="text-[12px] font-medium text-slate-200">Halaman profil</p>
+                        <div className="mt-1.5 h-1 rounded-full bg-slate-600 overflow-hidden">
+                          <div className="h-full w-[40%] rounded-full" style={{ backgroundColor: '#0D9488' }} />
+                        </div>
+                        <p className="text-[10px] text-slate-500 mt-0.5">40%</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Done */}
+                  <div className="flex-1 min-w-0">
+                    <div className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 mb-2.5">Done</div>
+                    <div className="space-y-2">
+                      <div className="rounded-lg bg-slate-700/50 px-2.5 py-2">
+                        <div className="flex items-center gap-1 mb-1.5">
+                          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: '#0D9488' }} />
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <p className="text-[12px] font-medium text-slate-400 line-through">Logo</p>
+                          <HiOutlineCheck className="h-3 w-3" style={{ color: '#0D9488' }} />
+                        </div>
+                      </div>
+                      <div className="rounded-lg bg-slate-700/50 px-2.5 py-2">
+                        <div className="flex items-center gap-1 mb-1.5">
+                          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: '#F0997B' }} />
+                          <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: '#FAC775' }} />
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <p className="text-[12px] font-medium text-slate-400 line-through">Wireframe</p>
+                          <HiOutlineCheck className="h-3 w-3" style={{ color: '#0D9488' }} />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              ))}
+
+                {/* Avatars */}
+                <div className="flex items-center mt-4 pt-3.5 border-t border-slate-700/40">
+                  <div className="flex -space-x-2">
+                    <div className="h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-slate-900" style={{ backgroundColor: '#0D9488' }}>A</div>
+                    <div className="h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-slate-900" style={{ backgroundColor: '#F0997B' }}>B</div>
+                    <div className="h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-slate-900" style={{ backgroundColor: '#FAC775' }}>C</div>
+                    <div className="h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-slate-900" style={{ backgroundColor: '#6366F1' }}>D</div>
+                    <div className="h-6 w-6 rounded-full flex items-center justify-center text-[10px] font-bold text-white ring-2 ring-slate-900" style={{ backgroundColor: '#34D399' }}>E</div>
+                  </div>
+                  <span className="text-[10px] text-slate-500 ml-2.5">+12 anggota tim</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
