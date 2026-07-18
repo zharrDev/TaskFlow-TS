@@ -2,41 +2,38 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
-import { HiOutlineEnvelope, HiOutlineLockClosed, HiOutlineUser, HiOutlineEye, HiOutlineEyeSlash } from 'react-icons/hi2';
+import { HiOutlineEnvelope, HiOutlineLockClosed, HiOutlineUser, HiOutlineEye, HiOutlineEyeSlash, HiOutlineClipboardDocumentList, HiOutlineUsers, HiOutlineChartBar } from 'react-icons/hi2';
 
-const TaskBotSVG: React.FC<{ isHiding: boolean; large?: boolean }> = ({ isHiding, large }) => {
-  const size = large ? 160 : 120;
-  const s = size / 120;
-  return (
-    <svg width={size} height={size} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm">
-      <rect x="25" y="40" width="70" height="55" rx="14" stroke="#0F766E" strokeWidth="3" fill="#F0FDFA" />
-      <g className="transition-all duration-500 ease-out" style={{ transformOrigin: '60px 65px', transform: isHiding ? 'rotate(12deg) translateX(-4px)' : 'rotate(0deg) translateX(0)' }}>
-        <rect x="35" y="50" width="50" height="30" rx="8" fill="#CCFBF1" stroke="#0D9488" strokeWidth="2" />
-        {!isHiding ? (
-          <>
-            <circle cx="48" cy="65" r="4" fill="#0F766E" />
-            <circle cx="72" cy="65" r="4" fill="#0F766E" />
-            <circle cx="49" cy="64" r="1.5" fill="white" />
-            <circle cx="73" cy="64" r="1.5" fill="white" />
-          </>
-        ) : (
-          <>
-            <line x1="44" y1="65" x2="52" y2="65" stroke="#0F766E" strokeWidth="2.5" strokeLinecap="round" />
-            <line x1="68" y1="65" x2="76" y2="65" stroke="#0F766E" strokeWidth="2.5" strokeLinecap="round" />
-          </>
-        )}
-      </g>
-      <line x1="60" y1="40" x2="60" y2="28" stroke="#0F766E" strokeWidth="2.5" strokeLinecap="round" />
-      <circle cx="60" cy="24" r="5" fill="#14B8A6" stroke="#0F766E" strokeWidth="2" />
-      <g className={`transition-all duration-300 origin-center ${isHiding ? '-translate-y-3' : ''}`}>
-        <rect x="10" y={isHiding ? '48' : '62'} width="18" height="10" rx="5" fill="#F0FDFA" stroke="#0F766E" strokeWidth="2.5" className="transition-all duration-300" />
-        <rect x="92" y={isHiding ? '48' : '62'} width="18" height="10" rx="5" fill="#F0FDFA" stroke="#0F766E" strokeWidth="2.5" className="transition-all duration-300" />
-      </g>
-      <rect x="35" y="93" width="16" height="8" rx="4" fill="#F0FDFA" stroke="#0F766E" strokeWidth="2" />
-      <rect x="69" y="93" width="16" height="8" rx="4" fill="#F0FDFA" stroke="#0F766E" strokeWidth="2" />
-    </svg>
-  );
-};
+const TaskBotSVG: React.FC<{ isHiding: boolean }> = ({ isHiding }) => (
+  <svg width={130} height={130} viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="drop-shadow-sm block mx-auto">
+    <rect x="25" y="40" width="70" height="55" rx="14" stroke="#0F766E" strokeWidth="3" fill="#F0FDFA" />
+    <g style={{ transformOrigin: '60px 65px', transform: isHiding ? 'rotate(12deg)' : 'rotate(0deg)', transition: 'transform 0.5s' }}>
+      <rect x="35" y="50" width="50" height="30" rx="8" fill="#CCFBF1" stroke="#0D9488" strokeWidth="2" />
+      {!isHiding ? (
+        <>
+          <circle cx="48" cy="65" r="4.5" fill="#0F766E" />
+          <circle cx="72" cy="65" r="4.5" fill="#0F766E" />
+          <circle cx="49" cy="63.5" r="1.5" fill="white" />
+          <circle cx="73" cy="63.5" r="1.5" fill="white" />
+          <path d="M55 73 Q60 76 65 73" stroke="#0F766E" strokeWidth="2" strokeLinecap="round" fill="none" />
+        </>
+      ) : (
+        <>
+          <line x1="43" y1="65" x2="53" y2="65" stroke="#0F766E" strokeWidth="3" strokeLinecap="round" />
+          <line x1="67" y1="65" x2="77" y2="65" stroke="#0F766E" strokeWidth="3" strokeLinecap="round" />
+        </>
+      )}
+    </g>
+    <line x1="60" y1="40" x2="60" y2="28" stroke="#0F766E" strokeWidth="2.5" strokeLinecap="round" />
+    <circle cx="60" cy="24" r="6" fill="#14B8A6" stroke="#0F766E" strokeWidth="2.5" />
+    <g style={{ transform: isHiding ? 'translateY(-12px)' : 'translateY(0)', transition: 'transform 0.35s' }}>
+      <rect x="8" y="62" width="20" height="12" rx="6" fill="#F0FDFA" stroke="#0F766E" strokeWidth="2.5" />
+      <rect x="92" y="62" width="20" height="12" rx="6" fill="#F0FDFA" stroke="#0F766E" strokeWidth="2.5" />
+    </g>
+    <rect x="35" y="93" width="16" height="8" rx="4" fill="#F0FDFA" stroke="#0F766E" strokeWidth="2" />
+    <rect x="69" y="93" width="16" height="8" rx="4" fill="#F0FDFA" stroke="#0F766E" strokeWidth="2" />
+  </svg>
+);
 
 const AuthPage: React.FC = () => {
   const { login, register } = useAuth();
@@ -45,36 +42,34 @@ const AuthPage: React.FC = () => {
   const isRegisterRoute = location.pathname === '/register';
 
   const [isFlipped, setIsFlipped] = useState(isRegisterRoute);
-  const [cardHeight, setCardHeight] = useState<number | undefined>(undefined);
 
-  // Login state
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
   const [showLoginPassword, setShowLoginPassword] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginErrors, setLoginErrors] = useState<{ email?: string; password?: string }>({});
 
-  // Register state
   const [regForm, setRegForm] = useState({ name: '', email: '', password: '', confirmPassword: '' });
   const [showRegPassword, setShowRegPassword] = useState(false);
   const [regLoading, setRegLoading] = useState(false);
   const [regErrors, setRegErrors] = useState<Record<string, string>>({});
 
-  // Mascot state: hides/looks away when ANY password activity (typing hidden OR shown)
   const [isMascotHiding, setIsMascotHiding] = useState(false);
   const [loginPwdFocused, setLoginPwdFocused] = useState(false);
   const [regPwdFocused, setRegPwdFocused] = useState(false);
   const [regConfirmFocused, setRegConfirmFocused] = useState(false);
 
-  const passwordActive = (loginPwdFocused && loginPassword.length > 0) ||
+  const passwordTyping = (loginPwdFocused && loginPassword.length > 0) ||
     (regPwdFocused && regForm.password.length > 0) ||
     (regConfirmFocused && regForm.confirmPassword.length > 0);
 
-  useEffect(() => {
-    setIsMascotHiding(passwordActive);
-  }, [passwordActive]);
+  const passwordShown = (showLoginPassword && loginPassword.length > 0) ||
+    (showRegPassword && (regForm.password.length > 0));
 
-  // Sync with route
+  useEffect(() => {
+    setIsMascotHiding(passwordTyping || passwordShown);
+  }, [passwordTyping, passwordShown]);
+
   useEffect(() => {
     setIsFlipped(location.pathname === '/register');
   }, [location.pathname]);
@@ -143,15 +138,21 @@ const AuthPage: React.FC = () => {
     window.history.replaceState(null, '', '/login');
   };
 
-  // Set fixed height to tallest side so card doesn't jump
   const frontRef = React.useRef<HTMLDivElement>(null);
   const backRef = React.useRef<HTMLDivElement>(null);
+  const [cardHeight, setCardHeight] = useState<number | undefined>(undefined);
 
   useEffect(() => {
     const frontH = frontRef.current?.scrollHeight || 0;
     const backH = backRef.current?.scrollHeight || 0;
     setCardHeight(Math.max(frontH, backH, 380));
   }, []);
+
+  const features = [
+    { icon: HiOutlineClipboardDocumentList, label: 'Task Management' },
+    { icon: HiOutlineUsers, label: 'Team Collaboration' },
+    { icon: HiOutlineChartBar, label: 'Progress Tracking' },
+  ];
 
   const loginForm = (
     <div ref={frontRef} className="flip-card-front">
@@ -271,63 +272,65 @@ const AuthPage: React.FC = () => {
 
   return (
     <div className="h-screen flex overflow-hidden">
-      {/* Left: Branding panel */}
       <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-slate-900">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-700/30 via-primary-600/20 to-teal-500/30" />
-        <div className="absolute top-1/3 left-1/4 w-80 h-80 bg-primary-500/20 rounded-full blur-[100px] animate-float" />
-        <div className="absolute bottom-1/3 right-1/4 w-64 h-64 bg-teal-400/20 rounded-full blur-[100px] animate-float" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-primary-500/20 rounded-full blur-[100px] animate-float" />
+        <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-teal-400/20 rounded-full blur-[100px] animate-float" style={{ animationDelay: '1s' }} />
         <div className="relative z-10 flex flex-col justify-center px-16">
-          <div className="flex items-center gap-3 mb-8">
-            <div className="h-12 w-12 rounded-xl bg-primary-600 flex items-center justify-center">
+          <div className="flex items-center gap-3 mb-10">
+            <div className="h-12 w-12 rounded-xl bg-primary-600 flex items-center justify-center shadow-lg shadow-primary-600/30">
               <span className="text-white font-bold text-2xl">T</span>
             </div>
             <span className="text-3xl font-bold text-white">TaskFlow</span>
           </div>
-          <h2 className="text-4xl font-bold text-white mb-4">
-            {isFlipped ? 'Bergabung Sekarang' : 'Welcome Back!'}
-          </h2>
-          <p className="text-slate-400 text-lg">
-            {isFlipped
-              ? 'Buat akun gratis dan mulai kelola proyek Anda bersama tim.'
-              : 'Masuk untuk mengelola proyek dan berkolaborasi dengan tim Anda.'}
-          </p>
+
+          <div className="space-y-10">
+            <div>
+              <h2 className="text-4xl font-bold text-white mb-4 leading-tight">
+                {isFlipped ? 'Siap Mulai?' : 'Selamat Datang Kembali'}
+              </h2>
+              <p className="text-slate-400 text-lg leading-relaxed max-w-md">
+                {isFlipped
+                  ? 'Bergabung dengan ribuan tim yang sudah produktif bersama TaskFlow.'
+                  : 'Kelola proyek, pantau progres, dan capai target bersama tim.'}
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {features.map((f, i) => (
+                <div key={i} className="flex items-center gap-3 text-slate-300">
+                  <div className="h-9 w-9 rounded-lg bg-white/10 flex items-center justify-center">
+                    <f.icon className="h-4 w-4 text-primary-400" />
+                  </div>
+                  <span className="text-sm font-medium">{f.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Right: Card + TaskBot */}
       <div className="w-full lg:w-1/2 flex items-center justify-center bg-slate-50 dark:bg-slate-900">
-        <div className="flex items-center justify-center gap-4 lg:gap-6">
-          {/* Desktop: TaskBot beside card */}
-          <div className="hidden lg:block">
-            <div className="transition-all duration-500">
-              <TaskBotSVG isHiding={isMascotHiding} large />
+        <div className="w-full max-w-md px-4 lg:px-6">
+          <div className="lg:hidden flex items-center justify-center gap-2 mb-4">
+            <div className="h-9 w-9 rounded-xl bg-primary-600 flex items-center justify-center">
+              <span className="text-white font-bold text-base">T</span>
             </div>
+            <span className="text-xl font-bold text-primary-700 dark:text-primary-400">TaskFlow</span>
           </div>
 
-          {/* Card */}
-          <div className="w-full max-w-md px-4 lg:px-0">
-            {/* Mobile logo */}
-            <div className="lg:hidden flex items-center justify-center gap-2 mb-4">
-              <div className="h-9 w-9 rounded-xl bg-primary-600 flex items-center justify-center">
-                <span className="text-white font-bold text-base">T</span>
-              </div>
-              <span className="text-xl font-bold text-primary-700 dark:text-primary-400">TaskFlow</span>
+          <div className="glass-card p-5 sm:p-6">
+            <div className="mb-4">
+              <TaskBotSVG isHiding={isMascotHiding} />
             </div>
 
-            <div className="glass-card p-4 sm:p-5">
-              {/* Mobile: TaskBot inside card */}
-              <div className="flex justify-center mb-3 lg:hidden">
-                <TaskBotSVG isHiding={isMascotHiding} />
-              </div>
-
-              <div className="flip-container">
-                <div
-                  className={`flip-card ${isFlipped ? 'flipped' : ''}`}
-                  style={{ height: cardHeight ? `${cardHeight}px` : '380px' }}
-                >
-                  {loginForm}
-                  {registerForm}
-                </div>
+            <div className="flip-container">
+              <div
+                className={`flip-card ${isFlipped ? 'flipped' : ''}`}
+                style={{ height: cardHeight ? `${cardHeight}px` : '380px' }}
+              >
+                {loginForm}
+                {registerForm}
               </div>
             </div>
           </div>
